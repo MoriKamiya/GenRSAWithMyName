@@ -13,7 +13,7 @@ def mainProcess(): #產生RSA密鑰，並檢查密鑰內是否具備某字串
     flag = 1 
     while(flag):
         rsa = RSA.generate(1024) #產生RSA1024
-        print(rsa.exportKey()[0:100])
+        #print(rsa.exportKey()[0:100])
         if name in rsa.exportKey(): #如果產生之RSA PivateKey不符合要求則重新產生RSA
             flag = 0 #條件符合，稍後退出迴圈
             private_pem = rsa.exportKey() 
@@ -22,12 +22,14 @@ def mainProcess(): #產生RSA密鑰，並檢查密鑰內是否具備某字串
             fo.write(private_pem.decode("utf-8") + "\r\n" + public_pem.decode("utf-8"))
             #匯出符合條件之密鑰至純文字檔案
             fo.close()
+            os._exit()
             
 fo = open("test.txt", "w")
 name = "MoriKamiya"
 name = str.encode(name)
 print(name)
 
+#Intel Core i7 6700K have 8 Thread with Hyper-Threadding
 t1 = threading.Thread(target = mainProcess) 
 t2 = threading.Thread(target = mainProcess)
 t3 = threading.Thread(target = mainProcess)
@@ -45,6 +47,7 @@ t5.start()
 t6.start()
 t7.start()
 t8.start()
+
 t1.join()
 t2.join()
 t3.join()
